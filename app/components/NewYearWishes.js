@@ -8,6 +8,9 @@ const NewYearWishes = () => {
   const [submitted, setSubmitted] = useState(false);
   const [isBeforeNewYear, setIsBeforeNewYear] = useState(false);
 
+  // Sound effect
+  const [audio] = useState(new Audio('/sounds/new.mp3')); // Your sound file path
+
   useEffect(() => {
     const currentDate = new Date();
     const newYearDate = new Date('2025-01-01');
@@ -23,6 +26,8 @@ const NewYearWishes = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name.trim()) {
+      // Play sound on submit
+      audio.play();
       setSubmitted(true);
     }
   };
