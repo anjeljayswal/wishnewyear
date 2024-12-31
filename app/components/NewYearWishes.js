@@ -1,11 +1,24 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Confetti from 'react-confetti';
 import { motion } from 'framer-motion';
 
 const NewYearWishes = () => {
   const [name, setName] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [isBeforeNewYear, setIsBeforeNewYear] = useState(false);
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const newYearDate = new Date('2025-01-01');
+    
+    // Check if the current date is before January 1, 2025
+    if (currentDate < newYearDate) {
+      setIsBeforeNewYear(true);
+    } else {
+      setIsBeforeNewYear(false);
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +36,9 @@ const NewYearWishes = () => {
             <h1 className="text-5xl font-extrabold text-pink-200 mb-4 animate__animated animate__bounceIn">
               🎉 Happy New Year 2025! 🎉
             </h1>
-            <p className="text-lg text-yellow-100 mb-4">Enter your name to receive a personalized New Year wish.</p>
+            <p className="text-lg text-yellow-100 mb-4">
+              Enter your name to receive a personalized New Year wish.
+            </p>
             <input
               type="text"
               value={name}
@@ -46,10 +61,14 @@ const NewYearWishes = () => {
             className="space-y-6"
           >
             <h1 className="text-5xl font-extrabold text-yellow-200 animate__animated animate__bounceIn">
-              🎉 Happy New Year 2025, {name}! 🎉
+              {isBeforeNewYear
+                ? `🎉 Happy New Year 2025 in Advance, ${name}! 🎉`
+                : `🎉 Happy New Year 2025, ${name}! 🎉`}
             </h1>
             <p className="text-lg text-yellow-100 mb-6">
-              Wishing you an amazing year filled with love, success, and joy! 💫 Let's make this year unforgettable! 🌟💖
+              {isBeforeNewYear
+                ? `Wishing you an early celebration of the year ahead filled with love, success, and joy! 💫🎊`
+                : `Wishing you an amazing year filled with love, success, and joy! 💫 Let's make this year unforgettable! 🌟💖`}
             </p>
             <motion.button
               onClick={() => setSubmitted(false)}
