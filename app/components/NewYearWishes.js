@@ -1,4 +1,5 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 import Confetti from 'react-confetti';
 import { motion } from 'framer-motion';
@@ -7,28 +8,33 @@ const NewYearWishes = () => {
   const [name, setName] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isBeforeNewYear, setIsBeforeNewYear] = useState(false);
-
-  // Sound effect
-  const [audio] = useState(new Audio('/sounds/new.mp3')); // Your sound file path
+  const [audio, setAudio] = useState(null);
 
   useEffect(() => {
     const currentDate = new Date();
     const newYearDate = new Date('2025-01-01');
-    
+
     // Check if the current date is before January 1, 2025
     if (currentDate < newYearDate) {
       setIsBeforeNewYear(true);
     } else {
       setIsBeforeNewYear(false);
     }
+
+    // Initialize the audio object on the client side
+    const audioInstance = new Audio('/sounds/new.mp3');
+    setAudio(audioInstance);
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name.trim()) {
-      // Play sound on submit
-      audio.play();
       setSubmitted(true);
+
+      // Play sound
+      if (audio) {
+        audio.play();
+      }
     }
   };
 
